@@ -27,7 +27,7 @@ jobs:
 
     - name: build image
       run: |
-        docker build --tag monolith394/docker-graphql:0.0.2
+        docker build -t monolith394/docker-graphql:0.0.2 .
 
     - name: push image to docker hub
       run: |
