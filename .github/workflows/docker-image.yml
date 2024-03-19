@@ -30,22 +30,22 @@ jobs:
       env:
         DOCKER_USER: ${{secrets.DOCKER_USER}}
         DOCKER_PASSWORD: ${{secrets.DOCKER_PASSWORD}}
+      run: |
+        docker login -u $DOCKER_USER -p $DOCKER_PASSWORD    
+
+    - name: build image
+      env:
         NEW_VERSION: ${{ steps.version.outputs.version }}
       run: |
-        docker login -u $DOCKER_USER -p $DOCKER_PASSWORD
-        echo "New version: $NEW_VERSION"
+        docker build -t monolith394/docker-graphql:$NEW_VERSION .
+        docker build -t monolith394/docker-graphql:latest .
 
-    
-
-    # - name: build image
-    #   run: |
-    #     docker build -t monolith394/docker-graphql:0.0.2 .
-    #     docker build -t monolith394/docker-graphql:latest .
-
-    # - name: push image to docker hub
-    #   run: |
-    #     docker push monolith394/docker-graphql:0.0.2
-    #     docker push monolith394/docker-graphql:latest
+    - name: push image to docker hub
+      env:
+        NEW_VERSION: ${{ steps.version.outputs.version }}
+      run: |
+        docker push monolith394/docker-graphql:$NEW_VERSION
+        docker push monolith394/docker-graphql:latest
 
 
 
