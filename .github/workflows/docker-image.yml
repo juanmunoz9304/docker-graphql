@@ -23,8 +23,20 @@ jobs:
         DOCKER_USER: ${{secrets.DOCKER_USER}}
         DOCKER_PASSWORD: ${{secrets.DOCKER_PASSWORD}}
       run: |
-        echo "Iniciando login"
         docker login -u $DOCKER_USER -p $DOCKER_PASSWORD
-        echo "Fin login"
+
+    - name: build image
+      run: |
+        docker build -t monolith394/docker-graphql:0.0.2
+
+    - name: push image to docker hub
+      run: |
+        docker push monolith394/docker-graphql:0.0.2
+        # docker push monolith394/docker-graphql
+
+
+
+
+        
     # - name: Build the Docker image
     #   run: docker build . --file Dockerfile --tag my-image-name:$(date +%s)
